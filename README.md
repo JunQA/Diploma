@@ -26,7 +26,7 @@ java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar artifacts/aqa-
 ````
 java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts/aqa-shop.jar
 ````
-#####Тестирование (Gradlew + Allure)
+##### Тестирование (Gradlew + Allure)
 Для запуска под MySQL используйте команду:
 ````
 gradlew -Ddb.url=jdbc:mysql://localhost:3306/app clean test allureReport
@@ -35,7 +35,7 @@ gradlew -Ddb.url=jdbc:mysql://localhost:3306/app clean test allureReport
 ````
 gradlew -Ddb.url=jdbc:postgresql://localhost:5432/app clean test allureReport
 ````
-#####Формирования отчётов (Allure)
+##### Формирования отчётов (Allure)
 Для получения отчета используйте команду:
 ````
 gradlew allureServe
