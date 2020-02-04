@@ -8,10 +8,6 @@
 
 * [Issues](https://github.com/JunQA/Diploma/issues)
 
-* Файл docker-compose.yml находится в корневом каталоге
-* Файл application.properties находится в корневой папке
-* Файл aqa-shop.jar находится в папке [artifacts](https://github.com/JunQA/Diploma/tree/master/artifacts) 
-* Реализована поддержка MySQL и Postgres
 
 ### Как запустить
 Для запуска контейнеров используйте команду:
