@@ -8,10 +8,6 @@
 
 * [Issues](https://github.com/JunQA/Diploma/issues)
 
-* Файл docker-compose.yml находится в корневом каталоге
-* Файл application.properties находится в корневой папке
-* Файл aqa-shop.jar находится в папке [artifacts](https://github.com/JunQA/Diploma/tree/master/artifacts) 
-* Реализована поддержка MySQL и Postgres
 
 ### Как запустить
 Для запуска контейнеров используйте команду:
@@ -26,21 +22,27 @@ java -Dspring.datasource.url=jdbc:mysql://localhost:3306/app -jar artifacts/aqa-
 ````
 java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts/aqa-shop.jar
 ````
-#####Тестирование (Gradlew + Allure)
+##### Тестирование (Gradlew + Allure)
 Для запуска под MySQL используйте команду:
 ````
-gradlew -Ddb.url=jdbc:mysql://localhost:3306/app clean test allureReport
+gradlew -Ddb.url=jdbc:mysql://localhost:3306/app
 ````
 Для запуска под PostgreSQL используйте команду:
 ````
-gradlew -Ddb.url=jdbc:postgresql://localhost:5432/app clean test allureReport
+gradlew -Ddb.url=jdbc:postgresql://localhost:5432/app
 ````
-#####Формирования отчётов (Allure)
-Для получения отчета используйте команду:
+##### Формирования отчётов (Allure)
+Для получения отчета используйте команды:
+````
+gradlew clean test allureReport
+````
 ````
 gradlew allureServe
 ````
-##### Завершение
+##### Остановка и удаление контейнеров
 ````
 docker-compose down
+````
+````
+docker rm "id контейнера"
 ````
