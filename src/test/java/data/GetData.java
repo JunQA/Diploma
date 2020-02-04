@@ -1,7 +1,7 @@
 package data;
 import java.sql.*;
 
-public class SQLHelper {
+public class GetData {
 
     private static final String url = System.getProperty("db.url");
     private static final String user = "app";

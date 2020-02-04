@@ -2,6 +2,7 @@ Thumbs.db*
 .DS_Store
 HELP.md
 .gradle
+.allure
 build/
 !**/src/main/**
 !**/src/test/**

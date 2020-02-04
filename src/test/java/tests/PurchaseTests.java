@@ -3,7 +3,7 @@ package tests;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import com.github.javafaker.Faker;
 import data.Card;
-import data.SQLHelper;
+import data.GetData;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import lombok.val;
@@ -35,7 +35,7 @@ public class PurchaseTests {
 
     @AfterEach
     void cleanTables() throws SQLException {
-        SQLHelper.cleanTables();
+        GetData.cleanTables();
     }
 
     @BeforeAll
@@ -52,32 +52,32 @@ public class PurchaseTests {
     @DisplayName("Должен подтверждать покупку при валидных данных и карте со статусом APPROVED")
     void shouldConfirmPaymentWithValidDataCardOne() throws SQLException {
         assertTrue(openAndFillPaymentPage(cardOne).notificationOkIsVisible());
-        assertEquals(SQLHelper.findPaymentStatus(), "APPROVED");
-        assertNotNull(SQLHelper.findPaymentId());
+        assertEquals(GetData.findPaymentStatus(), "APPROVED");
+        assertNotNull(GetData.findPaymentId());
     }
 
     @Test
     @DisplayName("Должен подтверждать кредит при валидных данных и карте со статусом APPROVED")
     void shouldConfirmCreditWithValidDataCardOne() throws SQLException {
         assertTrue(openAndFillCreditPage(cardOne).notificationOkIsVisible());
-        assertEquals(SQLHelper.findCreditStatus(), "APPROVED");
-        assertNotNull(SQLHelper.findCreditId());
+        assertEquals(GetData.findCreditStatus(), "APPROVED");
+        assertNotNull(GetData.findCreditId());
     }
 
     @Test
     @DisplayName("Не должен подтверждать покупку при использовании карты со статусом DECLINED")
     void shouldNotConfirmPaymentWithInvalidCardTwo() throws SQLException{
         assertTrue(openAndFillPaymentPage(cardTwo).notificationErrorIsVisible());
-        assertEquals(SQLHelper.findPaymentStatus(), "DECLINED");
-        assertNull(SQLHelper.findPaymentId());
+        assertEquals(GetData.findPaymentStatus(), "DECLINED");
+        assertNull(GetData.findPaymentId());
     }
 
     @Test
     @DisplayName("Не должен подтверждать кредит при использовании карты со статусом DECLINED")
     void shouldNotConfirmCreditWithInvalidCardTwo() throws SQLException {
         assertTrue(openAndFillCreditPage(cardTwo).notificationErrorIsVisible());
-        assertEquals(SQLHelper.findCreditStatus(), "DECLINED");
-        assertNull(SQLHelper.findCreditId());
+        assertEquals(GetData.findCreditStatus(), "DECLINED");
+        assertNull(GetData.findCreditId());
     }
 
     // Негативные сценарии с номером карты при оплате:
@@ -87,7 +87,7 @@ public class PurchaseTests {
     void shouldNotSubmitPaymentWithIllegalCard() throws SQLException {
         cardOne.setNumber("4444 4444 4444 4444");
         assertTrue(openAndFillPaymentPage(cardOne).notificationErrorIsVisible());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
 }
 
     // Негативные сценарии с номером карты при кредите:
@@ -97,7 +97,7 @@ public class PurchaseTests {
     void shouldNotSubmitCreditWithIllegalCard() throws SQLException{
         cardOne.setNumber("4444 4444 4444 4444");
         assertTrue(openAndFillCreditPage(cardOne).notificationErrorIsVisible());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     // Негативные сценарии с датой при оплате:
@@ -107,7 +107,7 @@ public class PurchaseTests {
     void shouldNotSubmitPaymentWithWrongMonth(String month, String message) throws SQLException {
         cardOne.setMonth(month);
         assertTrue((openAndFillPaymentPage(cardOne).inputInvalidFormat()), message);
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     @Test
@@ -115,7 +115,7 @@ public class PurchaseTests {
     void shouldNotConfirmPaymentWithInvalidMonth() throws SQLException {
         cardOne.setMonth("22");
         assertTrue(openAndFillPaymentPage(cardOne).inputInvalidMonth());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     @Test
@@ -123,7 +123,7 @@ public class PurchaseTests {
     void shouldNotConfirmPaymentIfEmptyYear() throws SQLException {
         cardOne.setYear("");
         assertTrue(openAndFillPaymentPage(cardOne).inputInvalidFormat());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     @Test
@@ -131,7 +131,7 @@ public class PurchaseTests {
     void shouldNotConfirmPaymentWithOldYear() throws SQLException {
         cardOne.setYear(setWrongYear());
         assertTrue(openAndFillPaymentPage(cardOne).inputInvalidExpireDate());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     // Негативные сценарии с датой при кредите:
@@ -141,7 +141,7 @@ public class PurchaseTests {
     void shouldNotSubmitCreditWithWrongMonth(String month, String message) throws SQLException{
         cardOne.setMonth(month);
         assertTrue((openAndFillCreditPage(cardOne).inputInvalidFormat()), message);
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     @Test
@@ -149,7 +149,7 @@ public class PurchaseTests {
     void shouldNotConfirmCreditWithInvalidMonth() throws SQLException{
         cardOne.setMonth("22");
         assertTrue(openAndFillCreditPage(cardOne).inputInvalidMonth());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     @Test
@@ -157,7 +157,7 @@ public class PurchaseTests {
     void shouldNotConfirmCreditIfEmptyYear() throws SQLException{
         cardOne.setYear("");
         assertTrue(openAndFillCreditPage(cardOne).inputInvalidFormat());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     @Test
@@ -165,7 +165,7 @@ public class PurchaseTests {
     void shouldNotConfirmCreditWithOldYear() throws SQLException{
         cardOne.setYear(setWrongYear());
         assertTrue(openAndFillCreditPage(cardOne).inputInvalidExpireDate());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     // Негативные сценарии с полем владелец при покупке:
@@ -175,7 +175,7 @@ public class PurchaseTests {
     void shouldNotConfirmPaymentWithoutOwner() throws SQLException{
         cardOne.setOwner("");
         assertTrue(openAndFillPaymentPage(cardOne).inputInvalidFillData());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     @ParameterizedTest
@@ -183,7 +183,7 @@ public class PurchaseTests {
     void shouldNotConfirmPaymentWithInvalidOwner(String owner, String message) throws SQLException {
         cardOne.setOwner(owner);
         assertTrue(openAndFillPaymentPage(cardOne).inputInvalidFormat(), message);
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     // Негативные сценарии с полем владелец при кредите:
@@ -193,7 +193,7 @@ public class PurchaseTests {
     void shouldNotConfirmCreditWithoutOwner() throws SQLException{
         cardOne.setOwner("");
         assertTrue(openAndFillCreditPage(cardOne).inputInvalidFillData());
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     @ParameterizedTest
@@ -201,7 +201,7 @@ public class PurchaseTests {
     void shouldNotConfirmCreditWithInvalidOwner(String owner, String message) throws SQLException{
         cardOne.setOwner(owner);
         assertTrue(openAndFillCreditPage(cardOne).inputInvalidFormat(), message);
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     // Негативные сценарии с полем cvc/cvv при оплате:
@@ -211,7 +211,7 @@ public class PurchaseTests {
     void shouldNotConfirmPaymentWithInvalidCvc(String cvc, String message) throws SQLException{
         cardOne.setCvc(cvc);
         assertTrue(openAndFillPaymentPage(cardOne).inputInvalidFormat(), message);
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     // Негативные сценарии с полем cvc/cvv при кредите:
@@ -221,7 +221,7 @@ public class PurchaseTests {
     void shouldNotConfirmCreditWithInvalidCvc(String cvc, String message) throws SQLException {
         cardOne.setCvc(cvc);
         assertTrue(openAndFillCreditPage(cardOne).inputInvalidFormat(), message);
-        assertFalse(SQLHelper.isNotEmpty());
+        assertFalse(GetData.isNotEmpty());
     }
 
     // Дополнительные методы
