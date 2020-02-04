@@ -36,7 +36,10 @@ gradlew -Ddb.url=jdbc:postgresql://localhost:5432/app clean test allureReport
 ````
 gradlew allureServe
 ````
-##### Завершение
+##### Остановка и удаление контейнеров
 ````
 docker-compose down
+````
+````
+docker rm "id контейнера"
 ````
