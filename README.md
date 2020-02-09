@@ -43,6 +43,3 @@ gradlew allureServe
 ````
 docker-compose down
 ````
-````
-docker rm "id контейнера"
-````
