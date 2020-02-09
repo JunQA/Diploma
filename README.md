@@ -25,16 +25,16 @@ java -Dspring.datasource.url=jdbc:postgresql://localhost:5432/app -jar artifacts
 ##### Тестирование (Gradlew + Allure)
 Для запуска под MySQL используйте команду:
 ````
-gradlew -Ddb.url=jdbc:mysql://localhost:3306/app
+gradlew -Ddb.url=jdbc:mysql://localhost:3306/app clean test
 ````
 Для запуска под PostgreSQL используйте команду:
 ````
-gradlew -Ddb.url=jdbc:postgresql://localhost:5432/app
+gradlew -Ddb.url=jdbc:postgresql://localhost:5432/app clean test
 ````
 ##### Формирования отчётов (Allure)
 Для получения отчета используйте команды:
 ````
-gradlew clean test allureReport
+gradlew allureReport
 ````
 ````
 gradlew allureServe
