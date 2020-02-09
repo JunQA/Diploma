@@ -1,7 +1,7 @@
 package data;
 import java.sql.*;
 
-public class GetData {
+public class SQLHelper {
 
     private static final String url = System.getProperty("db.url");
     private static final String user = "app";
@@ -42,13 +42,13 @@ public class GetData {
         return dbNotEmpty;
     }
 
-   private static String getData(String stmt, String label) throws SQLException {
+   private static String getData(String stmt, String columnName) throws SQLException {
         String result;
         Connection connection = DriverManager.getConnection(url,user,password);
         PreparedStatement statement = connection.prepareStatement(stmt);
         ResultSet resultSet = statement.executeQuery();
         resultSet.next();
-        result = resultSet.getString(label);
+        result = resultSet.getString(columnName);
         connection.close();
         return result;
     }
