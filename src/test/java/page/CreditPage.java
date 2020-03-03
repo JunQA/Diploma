@@ -26,6 +26,12 @@ public class CreditPage {
         header.shouldBe(Condition.visible);
     }
 
+    public static CreditPage getFilledCreditPage(Card card) {
+        CreditPage creditPage = StartPage.getStartPage().creditPage();
+        creditPage.fillData(card);
+        return creditPage;
+    }
+
     public void fillData(Card card) {
         cardNumberField.setValue(card.getNumber());
         monthField.setValue(card.getMonth());
@@ -35,26 +41,22 @@ public class CreditPage {
         continueButton.click();
     }
 
-    public boolean notificationOkIsVisible() {
+    public void assertNotificationOkIsVisible() {
         notificationOK.waitUntil(Condition.visible, 12000);
-        return true;
     }
 
-    public boolean checkOkNotification() {
+    public void assertNotificationOkIsnotvisisble() {
         notificationOK.shouldNotBe(Condition.visible);
-        return true;
     }
 
-    public boolean notificationErrorIsVisible() {
+    public void notificationErrorIsVisible() {
         notificationError.waitUntil(Condition.visible, 12000);
         notificationError.$(".icon").click();
-        checkOkNotification();
-        return true;
+        assertNotificationOkIsnotvisisble();
     }
 
-    public boolean inputInvalidIsNotVisible() {
+    public void assertInputInvalidIsNotVisible() {
         inputInvalid.shouldNotBe(Condition.visible);
-        return true;
     }
 
     public void cleanData() {
@@ -67,24 +69,20 @@ public class CreditPage {
 
     // Ошибки при вводе невалидных данных:
 
-    public boolean inputInvalidFormat() {
+    public void assertInputInvalidFormat() {
         inputInvalid.shouldHave(Condition.exactText("Неверный формат"));
-        return true;
     }
 
-    public boolean inputInvalidMonth() {
+    public void assertInputInvalidMonth() {
         inputInvalid.shouldHave(Condition.exactText("Неверно указан срок действия карты"));
-        return true;
     }
 
-    public boolean inputInvalidExpireDate() {
+    public void assertInputInvalidExpireDate() {
         inputInvalid.shouldHave(Condition.exactText("Истёк срок действия карты"));
-        return true;
     }
 
-    public boolean inputInvalidFillData() {
+    public void assertInputInvalidFillData() {
         inputInvalid.shouldHave(Condition.exactText("Поле обязательно для заполнения"));
-        return true;
     }
 }
 
